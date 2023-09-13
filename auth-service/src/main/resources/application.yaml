@@ -1,0 +1,54 @@
+spring:
+   application:
+      name: authentication-service
+#   datasource:
+#     url: jdbc:h2:mem:auth-db
+#     url: jdbc:h2:file:/data/user-db
+#      url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:data/ddl/user-db.sql';DB_CLOSE_ON_EXIT=FALSE;
+#      username: sa
+#      password: password
+#      driverClassName: org.h2.Driver
+
+   datasource:
+      url: jdbc:postgresql://localhost:5432/user_db
+      username: postgres
+      password: utkarsh
+      driverClassName: org.postgresql.Driver
+   jpa:
+#      spring.jpa.database-platform: org.hibernate.dialect.PostgreSQLDialect
+      hibernate:
+         ddl-auto: update
+ #    show-sql: true
+      properties:
+         hibernate:
+            format_sql: true
+            default_schema: user_auth_service
+      database: POSTGRESQL
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+#   h2:
+#      console:
+#         enabled: true
+#         path: /db-console
+
+   main:
+      allow-bean-definition-overriding: true
+
+server:
+   servlet:
+      context-path: /api/v1
+
+   port: 0
+
+
+app:
+   auth-type: DAO
+
+eureka:
+   instance:
+      instance-id: ${spring.application.name}:${random.value}
+   client:
+      register-with-eureka: true
+      fetch-registry: true
+
+   service-url:
+      defaultZone: http://localhost:8761/eureka
