@@ -4,7 +4,7 @@ import com.utkarshrthr.app.exception.UserNotFoundException;
 import com.utkarshrthr.app.user.dto.UserRequest;
 import com.utkarshrthr.app.user.dto.UserResponse;
 import com.utkarshrthr.app.user.entity.DAOUser;
-import com.utkarshrthr.app.user.repository.AppUserRepository;
+import com.utkarshrthr.app.user.repository.DAOUserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +17,7 @@ import java.util.Set;
 public class DAOUserService implements UserService {
 
     @Autowired
-    private AppUserRepository userRepository;
+    private DAOUserRepository userRepository;
 
     @Override
     public String createUser(UserRequest request) {
@@ -52,7 +52,7 @@ public class DAOUserService implements UserService {
     }
 
     @Override
-    public UserResponse getUser(String id) {
+    public UserResponse getUserById(String id) {
         DAOUser user = userRepository
                 .findById(id)
                 .orElseThrow(() -> new UserNotFoundException(""));
@@ -90,5 +90,10 @@ public class DAOUserService implements UserService {
         user.setPassword("rathore");
         user.setActive(true);
         return user;
+    }
+
+    @Override
+    public UserResponse getUserByUsername(String id) {
+        return null;
     }
 }

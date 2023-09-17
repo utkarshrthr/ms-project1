@@ -24,9 +24,8 @@ public class UserRequest {
 //    @NotEmpty(message = "Email can not be null or empty")
     private String email;
 
-   // @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\\\S+$).{8,}$",
-     //       message = "Password must contain minimum 8 characters, 1 upper-case letter, 1 lower-case letter, 1 special-character(@ $ ! % * ? &) and one number")
- //   @NotEmpty(message = "password can not be null or empty")
+    //@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\\\S+$).{8,}$", message = "Password must contain minimum 8 characters, 1 upper-case letter, 1 lower-case letter, 1 special-character(@ $ ! % * ? &) and one number")
+    // @NotEmpty(message = "password can not be null or empty")
     private String password;
 
     @Size(min = 1, message = "User must be assigned at least 1 role")

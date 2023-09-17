@@ -25,7 +25,7 @@ public class LDAPUserService implements UserService {
     }
 
     @Override
-    public UserResponse getUser(String id) {
+    public UserResponse getUserById(String id) {
         return null;
     }
 
@@ -41,6 +41,11 @@ public class LDAPUserService implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
+    }
+
+    @Override
+    public UserResponse getUserByUsername(String id) {
         return null;
     }
 }

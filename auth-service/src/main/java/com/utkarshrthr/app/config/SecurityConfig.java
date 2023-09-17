@@ -1,8 +1,8 @@
 package com.utkarshrthr.app.config;
 
-import com.utkarshrthr.app.filter.JwtAuthFilter;
+import com.utkarshrthr.app.auth.filter.JwtAuthFilter;
+import com.utkarshrthr.app.auth.service.JwtAuthService;
 import com.utkarshrthr.app.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,8 +22,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final JwtAuthService jwtAuthService;
+
+    public SecurityConfig(UserService userService, JwtAuthService jwtAuthService) {
+        this.userService = userService;
+        this.jwtAuthService = jwtAuthService;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -36,7 +41,7 @@ public class SecurityConfig {
             .anyRequest()
             .permitAll()
             .and()
-            .addFilterAfter(new JwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterAfter(new JwtAuthFilter(jwtAuthService), UsernamePasswordAuthenticationFilter.class)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authenticationProvider());
         return http.build();
@@ -61,7 +66,7 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    static class NoPasswordEncoder implements PasswordEncoder {
+    private static class NoPasswordEncoder implements PasswordEncoder {
 
         @Override
         public String encode(CharSequence rawPassword) {

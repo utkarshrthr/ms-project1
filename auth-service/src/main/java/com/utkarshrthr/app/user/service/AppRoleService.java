@@ -5,7 +5,6 @@ import com.utkarshrthr.app.user.dto.RoleResponse;
 import com.utkarshrthr.app.user.entity.DAORole;
 import com.utkarshrthr.app.user.repository.AppRoleRepository;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,15 +12,19 @@ import java.util.List;
 @Service
 public class AppRoleService implements RoleService {
 
-    @Autowired
-    private AppRoleRepository repository;
+    private final AppRoleRepository repository;
+
+    public AppRoleService(AppRoleRepository repository) {
+        this.repository = repository;
+    }
+
 
     @Override
     public String addRole(RoleRequest request) {
         DAORole role = new DAORole();
         BeanUtils.copyProperties(request, role);
-        repository.save(role);
-        return "Role added successfully";
+        DAORole newRole = repository.save(role);
+        return String.valueOf(newRole.getId());
     }
 
     @Override

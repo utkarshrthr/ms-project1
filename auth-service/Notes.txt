@@ -1,0 +1,9 @@
+##
+> docker exec -it <container_name> bash
+> su postgres
+> psql
+# view databases:
+> \l
+# switch database
+> \c <database_name>
+> create schema <schema_name>;

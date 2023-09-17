@@ -9,20 +9,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
+import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("role")
 public class RoleController {
 
-    @Autowired
-    private AppRoleService service;
+    private final AppRoleService service;
+
+    public RoleController(AppRoleService service) {
+        this.service = service;
+    }
 
     @PostMapping
     public ResponseEntity<Object> addNewRole(@RequestBody @Valid RoleRequest request){
-        String message = service.addRole(request);
-        return ApiResponse.getResponse(HttpStatus.CREATED, message);
+        String  roleId = service.addRole(request);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("timestamp", new Timestamp(System.currentTimeMillis()));
+        map.put("status", HttpStatus.CREATED.value());
+
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(roleId)
+                .toUri();
+
+        return ResponseEntity.created(uri).body(map);
     }
 
     @PutMapping

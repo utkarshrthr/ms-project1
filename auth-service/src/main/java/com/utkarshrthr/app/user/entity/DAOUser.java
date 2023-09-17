@@ -11,25 +11,34 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "app_user")
+@Table(name = "user")
 public class DAOUser extends MasterEntity implements UserDetails {
 
     @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(length = 100, unique = true, nullable = false)
     private String username;
 
+    @Column(length = 100, nullable = false)
     private String firstName;
 
+    @Column(length = 100, nullable = false)
     private String lastName;
 
+    @Column(length = 100, nullable = false)
     private String title;
 
+    @Column(length = 100, unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
     private boolean isActive;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
