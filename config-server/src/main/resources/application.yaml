@@ -1,14 +1,18 @@
 spring:
-  application:
-    name: config-server
+   application:
+      name: config-server
 
-  cloud:
-    config:
-      server:
-        git:
-          uri: file:C:/Users/UtkarshRathore/Documents/workspace/ms-project1/local-config-repo
-          default-label: master
-          #clone-on-start: true
+   cloud:
+      config:
+         server:
+            accept-empty: false
+            git:
+               uri: file://C:/workspace/ms-project1/config-repo
+               default-label: master
+               #clone-on-start: false
+               basedir: config-repo
+               search-paths: '{application}' # maps to spring.application.name
+
 
 server:
-  port: 8888
+   port: 8888
