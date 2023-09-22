@@ -4,11 +4,15 @@ spring:
 
     cloud:
         gateway:
+            discovery:
+                locator:
+                    enabled: true
             routes:
-                - id: authentication-service
-                  uri: lb://authentication-service
+                - id: service-name
+                  uri: http://localhost:8654 # actual service url without eureka
                   predicates:
-                      - Path=/authentication-service/**
+                    - Path=/api/v1/carts/**
+
 
 server:
     servlet:
