@@ -67,7 +67,6 @@ public class SecurityConfig {
     }
 
     private static class NoPasswordEncoder implements PasswordEncoder {
-
         @Override
         public String encode(CharSequence rawPassword) {
             return rawPassword.toString();

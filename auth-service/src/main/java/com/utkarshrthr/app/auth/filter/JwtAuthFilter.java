@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private static final String[] bypassURLs = {
-            "/login", "/user/**", "/role/**" // TODO -> Move these to configuration file
+            "/login", "/user/**", "/role/**", "/actuator/**" // TODO -> Move these to configuration file
     };
 
     private final JwtAuthService jwtAuthService;
