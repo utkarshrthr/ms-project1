@@ -4,15 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Cart {
 
     private Long id;
-    private String title;
-    private Double price;
-    private String category;
-    private String description;
-    private String image;
+    private Long userId;
+    private Date date;
 }

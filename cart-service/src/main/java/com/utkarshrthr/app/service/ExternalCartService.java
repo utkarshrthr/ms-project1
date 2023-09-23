@@ -1,11 +1,14 @@
 package com.utkarshrthr.app.service;
 
 import com.utkarshrthr.app.adapter.ExternalCartServiceAdapter;
+import com.utkarshrthr.app.controller.ProductController;
 import com.utkarshrthr.app.dto.CartRequest;
 import com.utkarshrthr.app.dto.CartResponse;
+import com.utkarshrthr.app.dto.ProductResponse;
 import com.utkarshrthr.app.exception.CartNotFoundException;
 import com.utkarshrthr.app.model.Cart;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -18,6 +21,9 @@ public class ExternalCartService implements CartService {
 
     private final ExternalCartServiceAdapter serviceAdapter;
 
+    @Autowired
+    private ProductController productController;
+
     public ExternalCartService(ExternalCartServiceAdapter serviceAdapter) {
         this.serviceAdapter = serviceAdapter;
     }
@@ -29,9 +35,13 @@ public class ExternalCartService implements CartService {
         if(cart == null)
             throw new CartNotFoundException("No cart exists for id: "+ cartId);
 
+
+        List<ProductResponse> products = productController.getProducts();
+
         CartResponse cartResponse = new CartResponse();
         BeanUtils.copyProperties(cart, cartResponse);
-        return null;
+        cartResponse.setProducts(products);
+        return cartResponse;
     }
 
     @Override

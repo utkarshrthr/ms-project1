@@ -51,7 +51,7 @@ app:
 
 eureka:
    instance:
-       instance-id: ${spring.application.name}:${random.value}
+       instance-id: ${spring.application.name}:${server.port}
        preferIpAddress: true
    client:
       register-with-eureka: true
