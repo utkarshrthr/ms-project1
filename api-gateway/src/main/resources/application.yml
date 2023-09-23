@@ -16,10 +16,14 @@ spring:
                   uri: lb://product-service
                   predicates:
                     - Path=/api/v1/products/**
+                  filters:
+                    - AuthFilter
                 - id: cart-service-route
                   uri: lb://cart-service
                   predicates:
                     - Path=/api/v1/carts/**
+                  filters:
+                      - AuthFilter
 
 server:
     servlet:
