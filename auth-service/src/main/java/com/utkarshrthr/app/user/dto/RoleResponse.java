@@ -1,34 +1,18 @@
 package com.utkarshrthr.app.user.dto;
 
-public class RoleResponse {
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
+
+@Getter
+@Setter
+public class RoleResponse extends RepresentationModel<RoleResponse> {
+
+    private Integer id;
 
     private String name;
 
     private String type;
 
     private String description;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

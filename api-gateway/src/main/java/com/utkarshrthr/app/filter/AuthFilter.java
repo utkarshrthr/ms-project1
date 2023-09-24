@@ -4,7 +4,6 @@ import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -36,8 +35,8 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
             else {
                //  throw new RuntimeException("Missing auth token");
             }
-            exchange.getResponse().setRawStatusCode(HttpStatus.UNAUTHORIZED.value());
-            return chain.filter(exchange);
+            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+            return exchange.getResponse().setComplete();
         });
     }
 

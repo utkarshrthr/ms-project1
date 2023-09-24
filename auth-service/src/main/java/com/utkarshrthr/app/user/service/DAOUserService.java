@@ -3,8 +3,10 @@ package com.utkarshrthr.app.user.service;
 import com.utkarshrthr.app.exception.UserNotFoundException;
 import com.utkarshrthr.app.user.dto.UserRequest;
 import com.utkarshrthr.app.user.dto.UserResponse;
+import com.utkarshrthr.app.user.entity.DAORole;
 import com.utkarshrthr.app.user.entity.DAOUser;
 import com.utkarshrthr.app.user.repository.DAOUserRepository;
+import com.utkarshrthr.app.user.repository.DaoRoleRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,12 +14,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class DAOUserService implements UserService {
 
     @Autowired
     private DAOUserRepository userRepository;
+
+    @Autowired
+    private DaoRoleRepository roleRepository;
 
     @Override
     public String createUser(UserRequest request) {
@@ -25,8 +29,9 @@ public class DAOUserService implements UserService {
         DAOUser user = new DAOUser();
         BeanUtils.copyProperties(request, user);
 
-        Set<String> roles = request.getRoles();
+        List<DAORole> roles = roleRepository.findAllById(request.getRoles());
 
+        user.setRoles(roles);
 
 
         // TODO -> Handle logic to add `AppRole` to `AppUser` object
@@ -84,12 +89,7 @@ public class DAOUserService implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        //return userRepository.findById(username).get();
-        DAOUser user = new DAOUser();
-        user.setUsername("Utkarsh");
-        user.setPassword("rathore");
-        user.setActive(true);
-        return user;
+        return null;
     }
 
     @Override

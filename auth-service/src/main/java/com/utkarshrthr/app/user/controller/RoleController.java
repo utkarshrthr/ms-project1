@@ -6,9 +6,10 @@ import com.utkarshrthr.app.user.service.AppRoleService;
 import com.utkarshrthr.app.util.ApiResponse;
 import com.utkarshrthr.app.util.AppConstants;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.reactive.WebFluxLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(AppConstants.API_VERSION + "/role")
+@RequestMapping(AppConstants.API_VERSION + "/roles")
 public class RoleController {
 
     private final AppRoleService service;
@@ -30,7 +31,7 @@ public class RoleController {
 
     @PostMapping
     public ResponseEntity<Object> addNewRole(@RequestBody @Valid RoleRequest request){
-        String  roleId = service.addRole(request);
+        Integer roleId = service.addRole(request);
 
         Map<String, Object> map = new HashMap<>();
         map.put("timestamp", new Timestamp(System.currentTimeMillis()));
@@ -42,6 +43,10 @@ public class RoleController {
                 .buildAndExpand(roleId)
                 .toUri();
 
+        WebFluxLinkBuilder
+                .linkTo(RoleController.class)
+                .slash(roleId.toString()).withSelfRel();
+
         return ResponseEntity.created(uri).body(map);
     }
 
@@ -52,7 +57,7 @@ public class RoleController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Object> getRole(@PathVariable String id){
+    public ResponseEntity<Object> getRole(@PathVariable Integer id){
         RoleResponse role = service.getRole(id);
         return ApiResponse.getResponse(HttpStatus.OK, role);
     }
@@ -60,7 +65,9 @@ public class RoleController {
     @GetMapping
     public ResponseEntity<Object> getAllRoles(){
         List<RoleResponse> roles = service.getAllRoles();
-        return ApiResponse.getResponse(HttpStatus.OK, roles);
+        return CollectionUtils.isEmpty(roles) ?
+            ResponseEntity.noContent().build():
+            ApiResponse.getResponse(HttpStatus.OK, roles);
     }
 
     @GetMapping("search")

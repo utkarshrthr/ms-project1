@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private static final String[] bypassURLs = {
-            "/login", "/user/**", "/role/**", "/actuator/**" // TODO -> Move these to configuration file
+            "/v1/login", "/v1/users/**", "/v1/roles/**", "/v1/actuator/**" // TODO -> Move these to configuration file
     };
 
     private final JwtAuthService jwtAuthService;
@@ -43,7 +43,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     // FilterChain is an example of `Chain-of-Responsibility` design pattern.
-
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         return Stream

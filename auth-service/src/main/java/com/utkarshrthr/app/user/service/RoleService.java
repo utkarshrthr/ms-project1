@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface RoleService {
 
-    String addRole(RoleRequest request);
+    Integer addRole(RoleRequest request);
 
     String updateRole(RoleRequest request);
 
-    String deleteRole(String roleId);
+    String deleteRole(Integer roleId);
 
-    RoleResponse getRole(String name);
+    RoleResponse getRole(Integer id);
 
     List<RoleResponse> getAllRoles();
 
