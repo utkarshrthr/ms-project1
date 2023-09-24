@@ -90,7 +90,9 @@ public class DAOUserService implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List<DAOUser> users = userRepository.findDAOUserByUsername(username);
-        return CollectionUtils.isEmpty(users) ? null : users.get(0);
+        if(CollectionUtils.isEmpty(users))
+            throw new UsernameNotFoundException("");
+        return users.get(0);
     }
 
     private List<String> getNamesFromDAORoles(List<DAORole> roles){

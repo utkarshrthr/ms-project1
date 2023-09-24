@@ -24,8 +24,8 @@ spring:
       database-platform: org.hibernate.dialect.PostgreSQLDialect
 
    main:
-      allow-bean-definition-overriding: false
-      allow-circular-references: false
+      allow-bean-definition-overriding: true
+      allow-circular-references: true
 
 server:
    servlet:
@@ -40,8 +40,8 @@ eureka:
        instance-id: ${spring.application.name}:${server.port}
        preferIpAddress: true
    client:
-      register-with-eureka: false
-      fetch-registry: false
+      register-with-eureka: true
+      fetch-registry: true
       service-url:
          defaultZone: http://localhost:8761/eureka
 

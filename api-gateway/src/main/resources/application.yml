@@ -24,6 +24,10 @@ spring:
                     - Path=/api/v1/carts/**
                   filters:
                       - AuthFilter
+                - id: authentication-service-route
+                  uri: lb://authentication-service
+                  predicates:
+                     - Path=/api/v1/login/**
 
 server:
     servlet:
