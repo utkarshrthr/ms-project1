@@ -43,9 +43,4 @@ public class LDAPUserService implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return null;
     }
-
-    @Override
-    public UserResponse getUserByUsername(String id) {
-        return null;
-    }
 }

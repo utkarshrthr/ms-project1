@@ -44,7 +44,7 @@ public class DAOUser extends MasterEntity implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private transient List<DAORole> roles = new ArrayList<>();
+    private List<DAORole> roles = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

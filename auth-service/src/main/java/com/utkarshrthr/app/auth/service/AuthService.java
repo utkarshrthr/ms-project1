@@ -2,9 +2,8 @@ package com.utkarshrthr.app.auth.service;
 
 import com.utkarshrthr.app.auth.dto.AuthResponse;
 import com.utkarshrthr.app.exception.AuthenticationException;
-import com.utkarshrthr.app.user.dto.UserResponse;
+import com.utkarshrthr.app.user.entity.DAOUser;
 import com.utkarshrthr.app.user.service.UserService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -36,7 +35,7 @@ public class AuthService {
                         .stream()
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toList());
-                return generateAuthResponse(username, roles);
+                return generateAuthResponse((DAOUser) authentication.getPrincipal(), roles);
             }
             throw new AuthenticationException("");
         }
@@ -45,11 +44,14 @@ public class AuthService {
         }
     }
 
-    private AuthResponse generateAuthResponse(String username, List<String> roles ){
+    // TODO -> Remove dependency on 'DAOUser'
+    private AuthResponse generateAuthResponse(DAOUser user, List<String> roles ){
         AuthResponse authResponse = new AuthResponse();
-        UserResponse userResponse = service.getUserById(username);
-        BeanUtils.copyProperties(userResponse, authResponse);
-        String token = authService.generateToken(username, roles);
+        authResponse.setName(user.getFirstName() + " " + user.getLastName());
+        authResponse.setEmail(user.getEmail());
+        authResponse.setUserId(user.getUsername());
+        authResponse.setRoles(user.getRoles().stream().map(role -> role.getName()).toList());
+        String token = authService.generateToken(user.getUsername(), roles);
         authResponse.setToken(token);
         return authResponse;
     }

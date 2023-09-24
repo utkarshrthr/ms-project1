@@ -6,7 +6,6 @@ import com.utkarshrthr.app.user.service.AppRoleService;
 import com.utkarshrthr.app.util.ApiResponse;
 import com.utkarshrthr.app.util.AppConstants;
 import jakarta.validation.Valid;
-import org.springframework.hateoas.server.reactive.WebFluxLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
@@ -43,9 +42,9 @@ public class RoleController {
                 .buildAndExpand(roleId)
                 .toUri();
 
-        WebFluxLinkBuilder
+        /*WebFluxLinkBuilder
                 .linkTo(RoleController.class)
-                .slash(roleId.toString()).withSelfRel();
+                .slash(roleId.toString()).withSelfRel();*/
 
         return ResponseEntity.created(uri).body(map);
     }

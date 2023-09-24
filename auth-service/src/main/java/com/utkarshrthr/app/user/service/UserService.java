@@ -16,8 +16,6 @@ public interface UserService extends UserDetailsService {
 
     UserResponse getUserById(String id);
 
-    UserResponse getUserByUsername(String id);
-
     List<UserResponse> getAllUsers();
 
     List<UserResponse> searchUsers(String query);

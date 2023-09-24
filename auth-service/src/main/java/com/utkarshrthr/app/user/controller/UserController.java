@@ -38,13 +38,20 @@ public class UserController {
         return ApiResponse.getResponse(HttpStatus.OK, message);
     }
 
-    @GetMapping(value = "{username}", params = "version=1", headers = "X-API-VERSION=1", produces = "application/vnd.company.app-v1+json")
+    @GetMapping("{username}")
+    public ResponseEntity<Object> getUser(@PathVariable String username){
+        UserResponse user = service.getUserById(username);
+        return ApiResponse.getResponse(HttpStatus.OK, user);
+    }
+
+
+    /* @GetMapping(value = "{username}", params = "version=1", headers = "X-API-VERSION=1", produces = "application/vnd.company.app-v1+json")
     public ResponseEntity<Object> getUserV1(@PathVariable String username){
         UserResponse user = service.getUserById(username);
         return ApiResponse.getResponse(HttpStatus.OK, user);
     }
 
-    @GetMapping(value = "{username}", params = "version=2", headers = "X-API-VERSION=2", produces = "application/vnd.company.app-v1+json")  // this value can be received in request-parameters
+     @GetMapping(value = "{username}", params = "version=2", headers = "X-API-VERSION=2", produces = "application/vnd.company.app-v1+json")  // this value can be received in request-parameters
     public ResponseEntity<Object> getUserV2(@PathVariable String username){
 
         // TODO -> Versioning:
@@ -64,11 +71,11 @@ public class UserController {
         *   3. Caching is difficult for header versioning because URL will be same for different versions
         *   4. Also in header-based versioning request can not be executed on browser, as we can't update header values.
         *   5. Complex API documentation
-        * */
+        * *
 
         UserResponse user = service.getUserById(username);
         return ApiResponse.getResponse(HttpStatus.OK, user);
-    }
+    } */
 
     @GetMapping
     public ResponseEntity<Object> getAllUser(){

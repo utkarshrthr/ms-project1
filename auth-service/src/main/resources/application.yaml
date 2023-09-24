@@ -24,8 +24,8 @@ spring:
       database-platform: org.hibernate.dialect.PostgreSQLDialect
 
    main:
-      allow-bean-definition-overriding: true
-      allow-circular-references: true
+      allow-bean-definition-overriding: false
+      allow-circular-references: false
 
 server:
    servlet:

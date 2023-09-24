@@ -36,5 +36,5 @@ public class UserRequest {
     @Size(min = 1, message = "User must be assigned at least 1 role")
     private Set<Integer> roles;
 
-    private boolean isActive;
+    private boolean isActive = true;
 }

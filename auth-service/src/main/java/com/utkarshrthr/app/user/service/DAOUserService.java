@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,15 +29,10 @@ public class DAOUserService implements UserService {
         // TODO -> Add logic to validate roles existence
         DAOUser user = new DAOUser();
         BeanUtils.copyProperties(request, user);
-
         List<DAORole> roles = roleRepository.findAllById(request.getRoles());
-
         user.setRoles(roles);
-
-
-        // TODO -> Handle logic to add `AppRole` to `AppUser` object
-        userRepository.save(user);
-        return "User record created successfully";
+        DAOUser newUser = userRepository.save(user);
+        return "User record with id: "+ newUser.getId() +" created successfully";
     }
 
     @Override
@@ -63,6 +59,8 @@ public class DAOUserService implements UserService {
                 .orElseThrow(() -> new UserNotFoundException(""));
         UserResponse response = new UserResponse();
         BeanUtils.copyProperties(user, response);
+        List<String> roles = getNamesFromDAORoles(user.getRoles());
+        response.setRoles(roles);
         return response;
     }
 
@@ -74,6 +72,8 @@ public class DAOUserService implements UserService {
             .forEach(user -> {
                 UserResponse response = new UserResponse();
                 BeanUtils.copyProperties(user, response);
+                List<String> roles = getNamesFromDAORoles(user.getRoles());
+                response.setRoles(roles);
                 users.add(response);
             });
         // TODO -> API should return 204-No-Content if no records found
@@ -89,11 +89,14 @@ public class DAOUserService implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+        List<DAOUser> users = userRepository.findDAOUserByUsername(username);
+        return CollectionUtils.isEmpty(users) ? null : users.get(0);
     }
 
-    @Override
-    public UserResponse getUserByUsername(String id) {
-        return null;
+    private List<String> getNamesFromDAORoles(List<DAORole> roles){
+        return roles
+                .stream()
+                .map(role -> role.getName())
+                .toList();
     }
 }
