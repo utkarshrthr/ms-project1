@@ -4,6 +4,7 @@ import com.utkarshrthr.app.user.dto.RoleRequest;
 import com.utkarshrthr.app.user.dto.RoleResponse;
 import com.utkarshrthr.app.user.service.AppRoleService;
 import com.utkarshrthr.app.util.ApiResponse;
+import com.utkarshrthr.app.util.AppConstants;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("role")
+@RequestMapping(AppConstants.API_VERSION + "/role")
 public class RoleController {
 
     private final AppRoleService service;

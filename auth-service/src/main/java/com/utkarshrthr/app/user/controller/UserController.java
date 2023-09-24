@@ -4,6 +4,7 @@ import com.utkarshrthr.app.user.dto.UserRequest;
 import com.utkarshrthr.app.user.dto.UserResponse;
 import com.utkarshrthr.app.user.service.UserService;
 import com.utkarshrthr.app.util.ApiResponse;
+import com.utkarshrthr.app.util.AppConstants;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping(AppConstants.API_VERSION + "/user")
 public class UserController {
 
     private final UserService service;
@@ -68,7 +69,6 @@ public class UserController {
         UserResponse user = service.getUserById(username);
         return ApiResponse.getResponse(HttpStatus.OK, user);
     }
-
 
     @GetMapping
     public ResponseEntity<Object> getAllUser(){
