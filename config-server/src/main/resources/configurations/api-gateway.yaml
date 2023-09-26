@@ -1,0 +1,51 @@
+spring:
+   cloud:
+      gateway:
+         discovery:
+            locator:
+               enabled: true
+               lowerCaseServiceId: true
+         routes:
+            - id: product-service-route
+               #uri: http://localhost:8084
+              uri: lb://product-service
+              predicates:
+                 - Path=/api/v1/products/**
+              filters:
+                 - AuthFilter
+            - id: cart-service-route
+              uri: lb://cart-service
+              predicates:
+                 - Path=/api/v1/carts/**
+              filters:
+                 - AuthFilter
+            - id: authentication-service-route
+              uri: lb://authentication-service
+              predicates:
+                 - Path=/api/v1/login/**,/api/v1/users/**,/api/v1/roles/**
+
+server:
+   servlet:
+      context-path: /gateway
+   port: 8000
+
+eureka:
+   instance:
+      instance-id: ${spring.application.name}:${server.port}
+      preferIpAddress: true
+   client:
+      register-with-eureka: true
+      fetch-registry: true
+      service-url:
+         defaultZone: http://localhost:8761/eureka
+
+#logging:
+#    level:
+#        org.springframework: ERROR
+
+management:
+   endpoints:
+      web:
+         exposure:
+            include: health,info,beans
+         base-path: ${server.servlet.context-path}/actuator

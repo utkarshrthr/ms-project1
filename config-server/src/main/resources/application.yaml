@@ -2,26 +2,21 @@ spring:
    application:
       name: config-server
 
+   profiles:
+      active: native
+
    cloud:
       config:
          server:
-            accept-empty: false
-            git:
-               uri: file://C:/workspace/ms-project1/config-repo
-               default-label: master
-               #clone-on-start: false
-               basedir: config-repo
-               search-paths: '{application}' # maps to spring.application.name
+            native:
+               search-locations: classpath:/configurations
+#            accept-empty: false
+#            git:
+#               uri: file://C:/workspace/ms-project1/config-repo
+#               default-label: master
+#               #clone-on-start: false
+#               basedir: config-repo
+#               search-paths: '{application}' # maps to spring.application.name
 
 server:
    port: 8888
-
-eureka:
-   instance:
-      instance-id: ${spring.application.name}:${random.value}
-   client:
-      register-with-eureka: true
-      fetch-registry: true
-
-   service-url:
-      defaultZone: http://localhost:8761/eureka

@@ -1,0 +1,30 @@
+# Application Configs
+app:
+   external:
+      api: https://fakestoreapi.com
+      cart-endpoint: ${app.external.api}/carts
+      product-endpoint: http://localhost:8000/api/v1/products
+
+# Spring Server Configs
+server:
+   servlet:
+      context-path: /api
+   port: 8083
+
+# Eureka Server Config
+eureka:
+   instance:
+      instance-id: ${spring.application.name}:${server.port}
+      preferIpAddress: true
+   client:
+      register-with-eureka: true
+      fetch-registry: true
+      service-url:
+         defaultZone: http://localhost:8761/eureka
+
+management:
+   endpoints:
+      web:
+         exposure:
+            include: health,info,beans
+         base-path: ${server.servlet.context-path}/actuator
