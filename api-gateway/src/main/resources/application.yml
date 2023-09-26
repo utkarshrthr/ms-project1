@@ -27,7 +27,11 @@ spring:
                 - id: authentication-service-route
                   uri: lb://authentication-service
                   predicates:
-                     - Path=/api/v1/login/**
+                     - Path=/api/v1/login/**,/api/v1/users/**,/api/v1/roles/**
+                - id: user-service-route
+                  uri: lb://authentication-service
+                  predicates:
+                     - Path=/api/v1/users/**,/api/v1/roles/**
 
 server:
     servlet:

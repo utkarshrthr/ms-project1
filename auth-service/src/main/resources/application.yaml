@@ -5,6 +5,9 @@ spring:
       import: optional:configserver:http://localhost:8888
    jackson:
       date-format: yyyy-MM-dd HH:mm:ss
+   sql:
+      init:
+         mode: always
 
    datasource:
       url: jdbc:postgresql://localhost:5432/user_db
@@ -22,6 +25,7 @@ spring:
             default_schema: user_service
       database: POSTGRESQL
       database-platform: org.hibernate.dialect.PostgreSQLDialect
+      defer-datasource-initialization: true
 
    main:
       allow-bean-definition-overriding: true
